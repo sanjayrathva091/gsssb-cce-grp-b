@@ -43,7 +43,12 @@ exports.estimateMainsMarks = async (req, res) => {
     }
     const est = right * CORRECT_AWARD + wrong * WRONG_AWARD;
     docu.mainsMarks = est.toString();
-    await docu.save();
+    const doc = await docu.save();
+    return res.status(200).json({
+      msg: "Updated mains marks successfully",
+      success: true,
+      data: doc
+    })
   } catch (err) {
     console.error('Estimate mains marks error:', err);
     res.status(500).json({
