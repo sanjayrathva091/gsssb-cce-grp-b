@@ -195,7 +195,7 @@ export default function Home() {
                 <div className={styles.marksCard}>
                   <h3>Mains Marks</h3>
                   <p className={styles.marksValue}>
-                    {parseFloat(candidateData.mainsMarks).toFixed(5) || "Not available"}
+                    {(candidateData.mainsMarks && parseFloat(candidateData.mainsMarks).toFixed(5)) || "Not available"}
                   </p>
                 </div>
                 <div className={styles.marksCard}>
