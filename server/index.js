@@ -7,7 +7,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'https://gsssb-cce-grp-b.vercel.app'
+  origin: '*'
 }));
 app.use(express.json());
 
