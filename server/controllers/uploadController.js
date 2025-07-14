@@ -82,11 +82,57 @@ exports.fetchData = async (req, res) => {
   try {
     // Find documents where mainsMarks exists and is not null
     const results = await Result.find({ mainsMarks: { $exists: true, $ne: null } });
+    
+    // Initialize stats structure
+    const stats = {
+      male: {},
+      female: {},
+      total: results.length
+    };
+
+    // Predefined categories (note: converted to lowercase once)
+    const categories = ["general", "general(ews)", "sebc", "sc", "st", "exs", "ph-a", "ph-b", "ph-c", "ph-d"];
+    
+    // Initialize all category structures in one pass
+    categories.forEach(category => {
+      stats.male[category] = { count: 0, oneFiftyPlus: 0, oneThirtyPlus: 0, oneTenPlus: 0, ninetyPlus: 0 };
+      stats.female[category] = { count: 0, oneFiftyPlus: 0, oneThirtyPlus: 0, oneTenPlus: 0, ninetyPlus: 0 };
+    });
+
+    // Single pass through results to collect all statistics
+    results.forEach(result => {
+      const categoryKey = result.category.toLowerCase();
+      const genderKey = result.gender.toLowerCase() === 'm' ? 'male' : 'female';
+      const marks = parseFloat(result.mainsMarks);
+      
+      // Skip if category doesn't exist in our predefined list
+      if (!categories.includes(categoryKey)) return;
+      
+      // Increment basic count
+      stats[genderKey][categoryKey].count++;
+      
+      // Check marks thresholds and increment counters
+      if (marks >= 90) {
+        stats[genderKey][categoryKey].ninetyPlus++;
+        
+        if (marks >= 110) {
+          stats[genderKey][categoryKey].oneTenPlus++;
+          
+          if (marks >= 130) {
+            stats[genderKey][categoryKey].oneThirtyPlus++;
+            
+            if (marks >= 150) {
+              stats[genderKey][categoryKey].oneFiftyPlus++;
+            }
+          }
+        }
+      }
+    });
 
     res.status(200).json({
       success: true,
       count: results.length,
-      results
+      stats
     });
   } catch (err) {
     console.error('Error fetching data:', err);
