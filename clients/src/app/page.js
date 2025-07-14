@@ -138,7 +138,7 @@ export default function Home() {
           <div className={styles.candidateCard}>
             <div className={styles.cardHeader}>
               <h2>Candidate Details</h2>
-              <span className={styles.rollNo}>Roll No: {candidateData.rollNo}</span>
+              <span className={styles.rollNo} Prelim>Roll No: {candidateData.preRollNo}</span>
             </div>
 
             <div className={styles.cardBody}>
