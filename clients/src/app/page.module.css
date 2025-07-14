@@ -230,3 +230,149 @@ a.secondary {
     width: 100%;
   }
 }
+
+/* Add these styles to your existing CSS */
+
+.searchContainer {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0 30px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid var(--gray-alpha-200);
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.searchButton {
+  padding: 12px 24px;
+  background: var(--foreground);
+  color: var(--background);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.searchButton:hover {
+  background: var(--button-primary-hover);
+}
+
+.error {
+  color: #ff4d4f;
+  margin: 10px 0;
+  padding: 10px;
+  background: rgba(255, 77, 79, 0.1);
+  border-radius: 4px;
+}
+
+.candidateCard {
+  width: 100%;
+  max-width: 800px;
+  border: 1px solid var(--gray-alpha-200);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cardHeader {
+  padding: 16px 24px;
+  background: var(--gray-alpha-100);
+  border-bottom: 1px solid var(--gray-alpha-200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardHeader h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.rollNo {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.cardBody {
+  padding: 24px;
+}
+
+.detailRow {
+  margin-bottom: 20px;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: var(--foreground);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.detailValue {
+  display: block;
+  font-size: 1.1rem;
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.detailItem {
+  padding: 12px;
+  background: var(--gray-alpha-100);
+  border-radius: 4px;
+}
+
+.marksContainer {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.marksCard {
+  flex: 1;
+  min-width: 200px;
+  padding: 16px;
+  background: var(--gray-alpha-100);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.marksCard h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+}
+
+.marksValue {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .searchContainer {
+    flex-direction: column;
+  }
+  
+  .searchButton {
+    width: 100%;
+  }
+  
+  .detailGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .marksCard {
+    min-width: 100%;
+  }
+}

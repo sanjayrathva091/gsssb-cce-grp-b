@@ -19,14 +19,7 @@ export default function Home() {
     
     try {
       const response = await fetch(
-        `${process.env.BACKEND_URL}/getCandidate`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ rollNo }),
-        }
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/getCandidate/${rollNo.trim()}`
       );
       
       if (!response.ok) {
@@ -34,8 +27,11 @@ export default function Home() {
       }
       
       const data = await response.json();
-      console.log("Candidate Data:", data);
-      setCandidateData(data);
+      if (data.success && data.candidate) {
+        setCandidateData(data.candidate);
+      } else {
+        throw new Error("Invalid data format");
+      }
     } catch (err) {
       setError(err.message);
       setCandidateData(null);
@@ -44,14 +40,19 @@ export default function Home() {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchCandidateData();
+  };
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to GSSSB CCE Group B!
+          GSSSB CCE Group B Result Checker
         </h1>
 
-        <div className={styles.searchContainer}>
+        <form onSubmit={handleSubmit} className={styles.searchContainer}>
           <input
             type="text"
             value={rollNo}
@@ -60,26 +61,70 @@ export default function Home() {
             className={styles.searchInput}
           />
           <button
-            onClick={fetchCandidateData}
+            type="submit"
             disabled={loading}
             className={styles.searchButton}
           >
             {loading ? "Searching..." : "Search"}
           </button>
-        </div>
+        </form>
 
         {error && <p className={styles.error}>{error}</p>}
 
         {candidateData && (
-          <div className={styles.candidateInfo}>
-            <h2>Candidate Details</h2>
-            <pre>{JSON.stringify(candidateData, null, 2)}</pre>
-            {/* You can format this data better based on your actual API response */}
+          <div className={styles.candidateCard}>
+            <div className={styles.cardHeader}>
+              <h2>Candidate Details</h2>
+              <span className={styles.rollNo}>Roll No: {candidateData.rollNo}</span>
+            </div>
+            
+            <div className={styles.cardBody}>
+              <div className={styles.detailRow}>
+                <span className={styles.detailLabel}>Full Name:</span>
+                <span className={styles.detailValue}>{candidateData.fullName}</span>
+              </div>
+              
+              <div className={styles.detailGrid}>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailLabel}>Gender:</span>
+                  <span className={styles.detailValue}>{candidateData.gender}</span>
+                </div>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailLabel}>Category:</span>
+                  <span className={styles.detailValue}>{candidateData.category}</span>
+                </div>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailLabel}>PH Status:</span>
+                  <span className={styles.detailValue}>{candidateData.ph || "No"}</span>
+                </div>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailLabel}>Ex-Serviceman:</span>
+                  <span className={styles.detailValue}>{candidateData.exServiceman || "No"}</span>
+                </div>
+              </div>
+              
+              <div className={styles.marksContainer}>
+                <div className={styles.marksCard}>
+                  <h3>Preliminary Marks</h3>
+                  <p className={styles.marksValue}>{candidateData.preMarks}</p>
+                </div>
+                <div className={styles.marksCard}>
+                  <h3>Mains Marks</h3>
+                  <p className={styles.marksValue}>{candidateData.mainsMarks}</p>
+                </div>
+                <div className={styles.marksCard}>
+                  <h3>Treated As</h3>
+                  <p className={styles.marksValue}>{candidateData.treatedAs}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </main>
 
-      <footer className={styles.footer}></footer>
+      <footer className={styles.footer}>
+        <p>Official GSSSB CCE Group B Results Portal</p>
+      </footer>
     </div>
   );
 }
