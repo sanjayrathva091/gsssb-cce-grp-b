@@ -6,9 +6,13 @@ const resultSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  rollNo: {
+  preRollNo: {
     type: String,
     required: true
+  },
+  mainsRollNo: {
+    type: String,
+    default: ''
   },
   fullName: {
     type: String,

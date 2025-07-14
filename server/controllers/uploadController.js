@@ -28,21 +28,23 @@ exports.uploadFile = async (req, res) => {
 
 exports.estimateMainsMarks = async (req, res) => {
   const CORRECT_AWARD = 1.02564;
-  const WRONG_AWARD = -0.25641;
+  const INCORRECT_AWARD = -0.25641;
   try {
-    const { pre_roll_no, right, wrong } = req.body;
-    if (!pre_roll_no || right === undefined || wrong === undefined) {
+    const { prelimRollNo, mainsRollNo, rightAnswers, wrongAnswers } = req.body;
+    // Validate required fields
+    if (!prelimRollNo || !mainsRollNo || rightAnswers === undefined || wrongAnswers === undefined) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const docu = await Result.findOne({ rollNo: pre_roll_no });
+    const docu = await Result.findOne({ preRollNo: prelimRollNo });
     if (!docu) {
       return res.status(404).json({ error: 'Cadidate not found' });
     }
     if (docu.mainsMarks) {
       return res.status(400).json({ error: 'Mains marks already estimated' });
     }
-    const est = right * CORRECT_AWARD + wrong * WRONG_AWARD;
+    const est = rightAnswers * CORRECT_AWARD + wrongAnswers * INCORRECT_AWARD;
     docu.mainsMarks = est.toString();
+    docu.mainsRollNo = mainsRollNo;
     const doc = await docu.save();
     return res.status(200).json({
       msg: "Updated mains marks successfully",
@@ -60,8 +62,9 @@ exports.estimateMainsMarks = async (req, res) => {
 
 exports.getCandidate = async (req, res) => {
   try {
-    const { pre_roll_no } = req.params;
-    const candidate = await Result.findOne({ rollNo: pre_roll_no });
+    const { prelimRollNo } = req.params;
+    const candidate = await Result.findOne({ preRollNo: prelimRollNo });
+
     if (!candidate) {
       return res.status(404).json({ error: 'Missing candidate data.' });
     }
@@ -79,7 +82,7 @@ exports.fetchData = async (req, res) => {
   try {
     // Find documents where mainsMarks exists and is not null
     const results = await Result.find({ mainsMarks: { $exists: true, $ne: null } });
-    
+
     res.status(200).json({
       success: true,
       count: results.length,

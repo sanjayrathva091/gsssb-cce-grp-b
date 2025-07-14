@@ -36,7 +36,8 @@ function extractResults(text) {
 
     return {
       srNo,
-      rollNo,
+      preRollNo: rollNo,
+      mainsRollNo: "",
       fullName: fullName || nameWithMeta, // Fallback to original if empty
       gender,
       category,

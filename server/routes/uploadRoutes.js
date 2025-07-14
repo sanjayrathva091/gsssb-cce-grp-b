@@ -9,7 +9,7 @@ router.post('/upload', upload.single('file'), uploadController.uploadFile);
 
 router.post('/updateMainsMarks', uploadController.estimateMainsMarks);
 
-router.get('/getCandidate/:pre_roll_no', uploadController.getCandidate);
+router.get('/getCandidate/:prelimRollNo', uploadController.getCandidate);
 
 router.get('/fetchData', uploadController.fetchData);
 module.exports = router;
