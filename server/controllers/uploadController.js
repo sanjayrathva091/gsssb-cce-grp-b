@@ -60,8 +60,8 @@ exports.estimateMainsMarks = async (req, res) => {
 
 exports.getCandidate = async (req, res) => {
   try {
-    const { rollNo } = req.body;
-    const candidate = await Result.findOne({ rollNo });
+    const { pre_roll_no } = req.params;
+    const candidate = await Result.findOne({ rollNo: pre_roll_no });
     if (!candidate) {
       return res.status(404).json({ error: 'Missing candidate data.' });
     }

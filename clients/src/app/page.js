@@ -1,17 +1,46 @@
 "use client";
 import styles from "./page.module.css";
+import { useState } from "react";
 
 export default function Home() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const fileInput = event.target.querySelector('input[type="file"]');
-    const file = fileInput.files[0];
-    console.log("File selected:", file);
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
-      console.log("File ready to upload:", file.name);
-      // ✅ Add your fetch/axios logic here to upload to backend
+  const [rollNo, setRollNo] = useState("");
+  const [candidateData, setCandidateData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchCandidateData = async () => {
+    if (!rollNo.trim()) {
+      setError("Please enter a roll number");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch(
+        `${process.env.BACKEND_URL}/getCandidate`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ rollNo }),
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error("Candidate not found");
+      }
+      
+      const data = await response.json();
+      console.log("Candidate Data:", data);
+      setCandidateData(data);
+    } catch (err) {
+      setError(err.message);
+      setCandidateData(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -22,10 +51,32 @@ export default function Home() {
           Welcome to GSSSB CCE Group B!
         </h1>
 
-        <form onSubmit={handleSubmit}>
-          <input type="file" name="file" />
-          <button type="submit">Upload</button>
-        </form>
+        <div className={styles.searchContainer}>
+          <input
+            type="text"
+            value={rollNo}
+            onChange={(e) => setRollNo(e.target.value)}
+            placeholder="Enter Prelim Roll No"
+            className={styles.searchInput}
+          />
+          <button
+            onClick={fetchCandidateData}
+            disabled={loading}
+            className={styles.searchButton}
+          >
+            {loading ? "Searching..." : "Search"}
+          </button>
+        </div>
+
+        {error && <p className={styles.error}>{error}</p>}
+
+        {candidateData && (
+          <div className={styles.candidateInfo}>
+            <h2>Candidate Details</h2>
+            <pre>{JSON.stringify(candidateData, null, 2)}</pre>
+            {/* You can format this data better based on your actual API response */}
+          </div>
+        )}
       </main>
 
       <footer className={styles.footer}></footer>
