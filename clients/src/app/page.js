@@ -191,6 +191,7 @@ export default function Home() {
                         <label htmlFor="mainsRollNo">Mains Roll No:</label>
                         <input
                           type="text"
+                          maxLength="9"
                           id="mainsRollNo"
                           value={mainsRollNo}
                           onChange={(e) => setMainsRollNo(e.target.value)}
