@@ -1,6 +1,7 @@
 "use client";
 import styles from "./page.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import StatsDisplay from "./StatsDisplay";
 
 export default function Home() {
   const [rollNo, setRollNo] = useState("");
@@ -14,6 +15,26 @@ export default function Home() {
   const [wrongAnswers, setWrongAnswers] = useState("");
   const [updating, setUpdating] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
+
+  // Add this state to your existing page component
+  const [statsData, setStatsData] = useState(null);
+
+  // Add this function to fetch stats
+  const fetchStats = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/fetchData`);
+      const data = await response.json();
+      if (data.success) {
+        setStatsData(data.stats);
+      }
+    } catch (err) {
+      console.error('Error fetching stats:', err);
+    }
+  };
+  // Call fetchStats when the component mounts or when needed
+  useEffect(() => {
+    fetchStats();
+  }, []);
 
   const fetchCandidateData = async () => {
     if (!rollNo.trim()) {
@@ -57,7 +78,7 @@ export default function Home() {
 
   const handleUpdateMarks = async (e) => {
     e.preventDefault();
-    
+
     if (!mainsRollNo.trim() || !rightAnswers || !wrongAnswers) {
       setError("Please fill all fields");
       return;
@@ -174,7 +195,7 @@ export default function Home() {
                 <div className={styles.marksCard}>
                   <h3>Mains Marks</h3>
                   <p className={styles.marksValue}>
-                    {candidateData.mainsMarks || "Not available"}
+                    {parseFloat(candidateData.mainsMarks).toFixed(5) || "Not available"}
                   </p>
                 </div>
                 <div className={styles.marksCard}>
@@ -233,7 +254,9 @@ export default function Home() {
                         {updating ? "Updating..." : "Update Marks"}
                       </button>
                     </form>
-                  </div>)}
+                  </div>
+                )}
+                {statsData && <StatsDisplay stats={statsData} />}
               </div>
             </div>
           </div>
@@ -241,7 +264,7 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        <p>Official GSSSB CCE Group B Results Portal</p>
+        <p>UnOfficial GSSSB CCE Group B Results Portal</p>
       </footer>
     </div>
   );
