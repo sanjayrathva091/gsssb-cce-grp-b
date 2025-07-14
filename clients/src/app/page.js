@@ -57,7 +57,7 @@ export default function Home() {
 
   const handleUpdateMarks = async (e) => {
     e.preventDefault();
-
+    
     if (!mainsRollNo.trim() || !rightAnswers || !wrongAnswers) {
       setError("Please fill all fields");
       return;
@@ -207,6 +207,7 @@ export default function Home() {
                           onChange={(e) => setRightAnswers(e.target.value)}
                           className={styles.formInput}
                           min="0"
+                          max="200"
                           required
                         />
                       </div>
@@ -219,6 +220,7 @@ export default function Home() {
                           onChange={(e) => setWrongAnswers(e.target.value)}
                           className={styles.formInput}
                           min="0"
+                          max="200"
                           required
                         />
                       </div>
