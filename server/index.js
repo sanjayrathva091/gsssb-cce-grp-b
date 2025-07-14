@@ -6,7 +6,9 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://gsssb-cce-grp-b.vercel.app'
+}));
 app.use(express.json());
 
 // Routes
