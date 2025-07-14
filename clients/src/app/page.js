@@ -199,8 +199,8 @@ export default function Home() {
                   </p>
                 </div>
                 <div className={styles.marksCard}>
-                  <h3>Treated As</h3>
-                  <p className={styles.marksValue}>{candidateData.treatedAs}</p>
+                  <h3>Provisional Merit No.</h3>
+                  <p className={styles.marksValue}>{"COMING SOON" || candidateData.treatedAs}</p>
                 </div>
 
                 {/* Update Mains Marks Section */}
