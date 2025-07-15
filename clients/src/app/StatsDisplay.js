@@ -29,20 +29,20 @@ const StatsDisplay = ({ stats }) => {
               <span className={styles.statValue}>{categoryData.count}</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>150+:</span>
+              <span className={styles.statLabel}>{`${">=150:"}`}</span>
               <span className={styles.statValue}>{categoryData.oneFiftyPlus}</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>130+:</span>
-              <span className={styles.statValue}>{categoryData.oneThirtyPlus}</span>
+              <span className={styles.statLabel}>130-149:</span>
+              <span className={styles.statValue}>{categoryData.oneThirtyPlus-categoryData.oneFiftyPlus}</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>110+:</span>
-              <span className={styles.statValue}>{categoryData.oneTenPlus}</span>
+              <span className={styles.statLabel}>110-129:</span>
+              <span className={styles.statValue}>{categoryData.oneTenPlus-categoryData.oneThirtyPlus}</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>90+:</span>
-              <span className={styles.statValue}>{categoryData.ninetyPlus}</span>
+              <span className={styles.statLabel}>90-109:</span>
+              <span className={styles.statValue}>{categoryData.ninetyPlus-categoryData.oneTenPlus}</span>
             </div>
             <div className={styles.statItem}>
               <span className={styles.statLabel}>Below 90:</span>
@@ -56,7 +56,7 @@ const StatsDisplay = ({ stats }) => {
 
   return (
     <div className={styles.statsContainer}>
-      <h2 className={styles.sectionTitle}>Statistics Summary</h2>
+      <h2 className={styles.sectionTitle}>Statistics Summary (Marks Distribution)</h2>
       <p className={styles.totalCandidates}>Total Candidates: {stats.total}</p>
       
       <div className={styles.genderSection}>
