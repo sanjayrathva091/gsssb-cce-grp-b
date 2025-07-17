@@ -71,7 +71,7 @@ const StatsDisplay = ({ stats }) => {
 
   return (
     <div className={styles.statsContainer}>
-      <h2 className={styles.sectionTitle}>Statistics Summary (Marks Distribution)</h2>
+      <h2 className={styles.sectionTitle}>Statistics Summary (Mains Marks Distribution)</h2>
       <p className={styles.totalCandidates}>Total Candidates: {stats.total}</p>
       
       <div className={styles.genderSection}>
