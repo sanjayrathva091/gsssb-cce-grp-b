@@ -95,8 +95,8 @@ exports.fetchData = async (req, res) => {
     
     // Initialize all category structures in one pass
     categories.forEach(category => {
-      stats.male[category] = { count: 0, oneFiftyPlus: 0, oneThirtyPlus: 0, oneTenPlus: 0, ninetyPlus: 0 };
-      stats.female[category] = { count: 0, oneFiftyPlus: 0, oneThirtyPlus: 0, oneTenPlus: 0, ninetyPlus: 0 };
+      stats.male[category] = { count: 0, oneFiftyPlus: 0, oneFortyPlus: 0, oneThirtyPlus: 0, oneTwentyPlus: 0, oneTenPlus: 0, oneOOPlus: 0, ninetyPlus: 0 };
+      stats.female[category] = { count: 0, oneFiftyPlus: 0, oneFortyPlus: 0, oneThirtyPlus: 0, oneTwentyPlus: 0, oneTenPlus: 0, oneOOPlus: 0, ninetyPlus: 0 };
     });
 
     // Single pass through results to collect all statistics
@@ -115,14 +115,26 @@ exports.fetchData = async (req, res) => {
       if (marks >= 90) {
         stats[genderKey][categoryKey].ninetyPlus++;
         
-        if (marks >= 110) {
-          stats[genderKey][categoryKey].oneTenPlus++;
+        if (marks >= 100) {
+          stats[genderKey][categoryKey].oneOOPlus++;
           
-          if (marks >= 130) {
-            stats[genderKey][categoryKey].oneThirtyPlus++;
+          if (marks >= 110) {
+            stats[genderKey][categoryKey].oneTenPlus++;
             
-            if (marks >= 150) {
-              stats[genderKey][categoryKey].oneFiftyPlus++;
+            if (marks >= 120) {
+              stats[genderKey][categoryKey].oneTwentyPlus++;
+
+              if (marks >= 130) {
+                stats[genderKey][categoryKey].oneThirtyPlus++;
+                
+                if (marks >= 140) {
+                  stats[genderKey][categoryKey].oneFortyPlus++;
+                  
+                  if (marks >= 150) {
+                    stats[genderKey][categoryKey].oneFiftyPlus++;
+                  }
+                }
+              }
             }
           }
         }

@@ -15,8 +15,11 @@ const StatsDisplay = ({ stats }) => {
       const categoryData = genderStats[category] || {
         count: 0,
         oneFiftyPlus: 0,
+        oneFortyPlus: 0,
         oneThirtyPlus: 0,
+        oneTwentyPlus: 0,
         oneTenPlus: 0,
+        oneOOPlus: 0,
         ninetyPlus: 0
       };
 
@@ -33,16 +36,28 @@ const StatsDisplay = ({ stats }) => {
               <span className={styles.statValue}>{categoryData.oneFiftyPlus}</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>130-149:</span>
-              <span className={styles.statValue}>{categoryData.oneThirtyPlus-categoryData.oneFiftyPlus}</span>
+              <span className={styles.statLabel}>140-149:</span>
+              <span className={styles.statValue}>{categoryData.oneFortyPlus-categoryData.oneFiftyPlus}</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>110-129:</span>
-              <span className={styles.statValue}>{categoryData.oneTenPlus-categoryData.oneThirtyPlus}</span>
+              <span className={styles.statLabel}>130-139:</span>
+              <span className={styles.statValue}>{categoryData.oneThirtyPlus-categoryData.oneFortyPlus}</span>
             </div>
             <div className={styles.statItem}>
-              <span className={styles.statLabel}>90-109:</span>
-              <span className={styles.statValue}>{categoryData.ninetyPlus-categoryData.oneTenPlus}</span>
+              <span className={styles.statLabel}>120-129:</span>
+              <span className={styles.statValue}>{categoryData.oneTwentyPlus-categoryData.oneThirtyPlus}</span>
+            </div>
+            <div className={styles.statItem}>
+              <span className={styles.statLabel}>110-119:</span>
+              <span className={styles.statValue}>{categoryData.oneTenPlus-categoryData.oneTwentyPlus}</span>
+            </div>
+            <div className={styles.statItem}>
+              <span className={styles.statLabel}>100-109:</span>
+              <span className={styles.statValue}>{categoryData.oneOOPlus-categoryData.oneTenPlus}</span>
+            </div>
+            <div className={styles.statItem}>
+              <span className={styles.statLabel}>90-99:</span>
+              <span className={styles.statValue}>{categoryData.ninetyPlus-categoryData.oneOOPlus}</span>
             </div>
             <div className={styles.statItem}>
               <span className={styles.statLabel}>Below 90:</span>
